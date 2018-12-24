@@ -4,8 +4,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/danikarik/clicksend-go/client"
-	apiclient "github.com/go-openapi/runtime/client"
+	api "github.com/danikarik/clicksend-go/client"
+	auth "github.com/go-openapi/runtime/client"
 )
 
 var (
@@ -14,11 +14,15 @@ var (
 )
 
 func main() {
-	auth := apiclient.BasicAuth(username, apiKey)
-	api := client.Default
-	resp, err := api.Account.AccountGet(nil, auth)
+	// basic auth credentials
+	basicAuth := auth.BasicAuth(username, apiKey)
+	// default api client
+	client := api.Default
+	// call api
+	resp, err := client.Account.AccountGet(nil, basicAuth)
 	if err != nil {
 		log.Fatalf("could not get response: %v", err)
 	}
+	// work with payload
 	log.Printf("%v", resp.Payload)
 }
